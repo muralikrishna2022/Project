@@ -2,6 +2,8 @@ const First_name = document.getElementById("comReg");
 if(First_name) First_name.addEventListener("submit", User_Object);
 const User_name = document.getElementById("logReg");
 if(User_name) User_name.addEventListener("submit", login_Object);
+const Notes = document.getElementById("logReg");
+if(Notes) Notes.addEventListener("submit", Note_Object);
 
 
 function First_Object(e){
@@ -33,7 +35,6 @@ function User(first_name,last_name,user_name,password,note){
     this.last_name = last_name; 
     this.user_name = user_name; 
     this.password = password; 
-    this.note = note;
 }
 
 User.prototype.getfirst_Name = function(){
