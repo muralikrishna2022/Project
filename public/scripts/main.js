@@ -1,71 +1,62 @@
-const First_name = document.getElementById("comReg");
-if(First_name) First_name.addEventListener("submit", User_Object);
-const User_name = document.getElementById("logReg");
-if(User_name) User_name.addEventListener("submit", login_Object);
-const Notes = document.getElementById("logReg");
-if(Notes) Notes.addEventListener("submit", Note_Object);
+document.getElementById("btn-users").addEventListener('click', getUsers);
 
-
-function First_Object(e){
+ function getUsers() {
+  fetch("http://localhost:3000/users/")
+   .then((res)=> res.json())
+   .then((data) => console.log(data))
+   .catch((err)=> console.log(err))
+ }
+async function fetchData(route = '', data = {}, methodType) {
+    const response = await fetch(`http://localhost:3000${route}`, {
+      method: methodType, // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    if(response.ok) {
+      return await response.json(); // parses JSON response into native JavaScript objects
+    } else {
+      throw await response.json();
+    }
+  }
+  
+  // user class
+  class User {
+    constructor(userName, password, fullName) {
+      this.userName = userName;
+      this.password = password;
+      this.fullName = fullName;
+    }
+  
+    getUsername() {
+      return this.userName;
+    }
+  }
+  
+  // grab the form, add event listener
+  let loginForm = document.getElementById("login-form");
+  if(loginForm) loginForm.addEventListener('submit', login);
+  
+  function login(e) {
     e.preventDefault();
-    let Firstname = ((document.getElementById("first_name")||{}).value)||"";
-    let Lastname = ((document.getElementById("last_name")||{}).value)||"";
-    let Username = ((document.getElementById("user_name")||{}).value)||"";
-    let Password = ((document.getElementById("password")||{}).value)||"";
-    const newUser = new User(Firstname,Lastname,Username,Password);
-    console.log(newUser);
-}
-function User_Object(e){
-    e.preventDefault();
-    let Username = ((document.getElementById("user_name")||{}).value)||"";
-    let Password = ((document.getElementById("password")||{}).value)||"";
-    const newUser = new User(Username,Password);
-    console.log(newUser);
-}
-
-function Note_Object(e){
-    e.preventDefault();
-    let Note = ((document.getElementById("comp_note")||{}).value)||"";
-    const newUser = new User(Note);
-    console.log(newUser);
-}
-
-function User(first_name,last_name,user_name,password,note){
-    this.first_name = first_name;  
-    this.last_name = last_name; 
-    this.user_name = user_name; 
-    this.password = password; 
-}
-
-User.prototype.getfirst_Name = function(){
-    return this.first_name;
-}
-
-User.prototype.getlast_Name = function(){
-    return this.last_name;
-}
-
-User.prototype.getuser_name = function(){
-    return this.user_name;
-}
-
-User.prototype.getnote = function(){
-    return this.note;
-}
-
-
-User.prototype.setfirst_Name = function(first_name){
-    this.first_name = first_name;
-}
-
-User.prototype.setlast_Name = function(last_name){
-    this.last_name = last_name;
-}
-
-User.prototype.setuser_name = function(user_name){
-    this.user_name = user_name;
-}
-
-User.prototype.setnote = function(note){
-    this.note = note;
-}
+  
+    let userName = document.getElementById("user_name").value;
+    let password = document.getElementById("password").value;
+    let user = new User(userName, password);
+  
+    fetchData("/users/login", user, "POST")
+    .then((data) => {
+      console.log(data);
+      window.location.href = "bmi.html";
+    })
+    .catch((err) => {
+      console.log(`Error!!! ${err.message}`)
+    }) 
+  
+  }
