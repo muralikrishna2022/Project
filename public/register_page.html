@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <main>
+        <div>
+          <button
+            style="font-size:20px; display:block; width:fit-content; margin:auto;" 
+            id="btn-users">Get All Users</button>
+        </div>
     <h1>GLOBAL COMPUTERS REGISTRATION FORM</h1>
     <img src="Images/logo.JPG"  width="400" height="200">
     <nav>
@@ -24,11 +30,13 @@
     <label for="password">Password:</label>   <input type="password" id="password" name="password" placeholder="Enter your password">
     <br>
     <input type="submit" value="Submit">
-    </form> 
+    </form>
+    </main> 
 <a href="./home.html">HOME Page</a>
 <a href="./login_page.html">Login Page</a>
 <a href="./Note.html">Notes Page</a>
 <section id = "Username" ></section>
-<script src="main.js"></script>
+<script src="../public/scripts/main.js"></script>
+<script src="../server/routes/user.js"></script>
 </body>
 </html>
